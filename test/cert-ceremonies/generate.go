@@ -8,20 +8,20 @@ import (
 	"os"
 	"os/exec"
 	"regexp"
+
+	"github.com/letsencrypt/boulder/cmd"
 )
 
 func genKey(path string) (string, error) {
-	out, err := exec.Command("bin/ceremony", "-config", path).CombinedOutput()
+	output, err := exec.Command("bin/ceremony", "-config", path).Output()
 	if err != nil {
-		fmt.Println(string(out))
 		return "", err
 	}
 	re := regexp.MustCompile(`and ID ([a-z0-9]{8})`)
-	matches := re.FindSubmatch(out)
+	matches := re.FindSubmatch(output)
 	if len(matches) != 2 {
 		return "", errors.New("unexpected number of key ID matches")
 	}
-	fmt.Println(string(out))
 	return string(matches[1]), nil
 }
 
@@ -44,35 +44,24 @@ func rewriteIntermediate(path, keyID string) (string, error) {
 }
 
 func genCert(path string) error {
-	out, err := exec.Command("bin/ceremony", "-config", path).CombinedOutput()
-	if err != nil {
-		return err
-	}
-	fmt.Println(string(out))
-	return nil
+	return err := exec.Command("bin/ceremony", "-config", path).Run()
 }
 
 func main() {
 	// Generate keys
 	rsaRootKeyID, err := genKey("test/cert-ceremonies/root-ceremony-rsa.yaml")
-	if err != nil {
-		panic(err)
-	}
-	fmt.Println(rsaRootKeyID)
+	cmd.FailOnError(err, "failed to generate root key + root cert")
 
 	rsaIntermediateKeyID, err := genKey("test/cert-ceremonies/intermediate-key-ceremony-rsa.yaml")
-	if err != nil {
-		panic(err)
-	}
-	fmt.Println(rsaIntermediateKeyID)
+	cmd.FailOnError(err, "failed to generate intermediate key")
 
-	tmpRSAIntermediate, err := rewriteIntermediate("test/cert-ceremonies/intermediate-ceremony-rsa.yaml", rsaRootKeyID)
-	if err != nil {
-		panic(err)
-	}
+	tmpRSAIntermediateA, err := rewriteIntermediate("test/cert-ceremonies/intermediate-ceremony-rsa-a.yaml", rsaRootKeyID)
+	cmd.FailOnError(err, "failed to rewrite intermediate cert config with key ID")
+	err = genCert(tmpRSAIntermediateA)
+	cmd.FailOnError(err, "failed to generate intermediate cert")
 
-	err = genCert(tmpRSAIntermediate)
-	if err != nil {
-		panic(err)
-	}
+	tmpRSAIntermediateB, err := rewriteIntermediate("test/cert-ceremonies/intermediate-ceremony-rsa-b.yaml", rsaRootKeyID)
+	cmd.FailOnError(err, "failed to rewrite intermediate cert config with key ID")
+	err = genCert(tmpRSAIntermediateA)
+	cmd.FailOnError(err, "failed to generate intermediate cert")
 }

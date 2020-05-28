@@ -30,7 +30,11 @@
     },
     "Issuers": [{
       "ConfigFile": "test/test-ca.key-pkcs11.json",
-      "CertFile": "/tmp/intermediate-cert-rsa.pem",
+      "CertFile": "/tmp/intermediate-cert-rsa-a.pem",
+      "NumSessions": 2
+    },{
+      "ConfigFile": "test/test-ca.key-pkcs11.json",
+      "CertFile": "/tmp/intermediate-cert-rsa-b.pem",
       "NumSessions": 2
     }],
     "expiry": "2160h",

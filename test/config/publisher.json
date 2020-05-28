@@ -27,7 +27,7 @@
 
   "common": {
     "ct": {
-      "intermediateBundleFilename": "/tmp/intermediate-cert-rsa.pem"
+      "intermediateBundleFilename": "/tmp/intermediate-cert-rsa-a.pem"
     }
   }
 }

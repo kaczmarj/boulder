@@ -9,10 +9,10 @@ inputs:
     public-key-path: /tmp/intermediate-signing-pub-rsa.pem
     issuer-certificate-path: /tmp/root-cert-rsa.pem
 outputs:
-    certificate-path: /tmp/intermediate-cert-rsa.pem
+    certificate-path: /tmp/intermediate-cert-rsa-b.pem
 certificate-profile:
     signature-algorithm: SHA256WithRSA
-    common-name: CA intermediate (RSA)
+    common-name: CA intermediate (RSA) B
     organization: good guys
     country: US
     not-before: 2020-01-01 12:00:00

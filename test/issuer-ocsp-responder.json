@@ -8,7 +8,7 @@
     "debugAddr": "localhost:8010"
   },
   "common": {
-    "issuerCert": "/tmp/intermediate-cert-rsa.pem"
+    "issuerCert": "/tmp/intermediate-cert-rsa-a.pem"
   },
   "sql": {
     "sqlDebug": true

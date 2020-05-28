@@ -101,7 +101,7 @@ func makeFakeCert(precert bool) (*x509.Certificate, error) {
 	}
 	issuerTemplate := &x509.Certificate{
 		Subject: pkix.Name{
-			CommonName: "CA intermediate (RSA)",
+			CommonName: "CA intermediate (RSA) A",
 		},
 	}
 	template := &x509.Certificate{

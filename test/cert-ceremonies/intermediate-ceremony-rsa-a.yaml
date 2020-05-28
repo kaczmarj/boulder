@@ -1,17 +1,18 @@
 ceremony-type: intermediate
 pkcs11:
     module: /usr/local/lib/libpkcs11-proxy.so
-    signing-key-slot: 0
-    signing-key-label: root signing key (ecdsa)
-    signing-key-id: ffff
+    pin: 5678
+    signing-key-slot: 789813790
+    signing-key-label: root signing key (rsa)
+    signing-key-id: $keyID$
 inputs:
-    public-key-path: /tmp/intermediate-signing-pub-ecdsa.pem
-    issuer-path: /tmp/root-cert-rsa.pem
+    public-key-path: /tmp/intermediate-signing-pub-rsa.pem
+    issuer-certificate-path: /tmp/root-cert-rsa.pem
 outputs:
-    certificate-path: /tmp/intermediate-cert-ecdsa.pem
+    certificate-path: /tmp/intermediate-cert-rsa-a.pem
 certificate-profile:
-    signature-algorithm: ECDSAWithSHA384
-    common-name: CA intermediate (ECDSA)
+    signature-algorithm: SHA256WithRSA
+    common-name: CA intermediate (RSA) A
     organization: good guys
     country: US
     not-before: 2020-01-01 12:00:00
@@ -21,7 +22,7 @@ certificate-profile:
     issuer-url:  http://good-guys.com/root
     policies:
         - oid: 1.2.3
-        - oid: 4.5.6
+        - oid: 1.5.6
           cps-uri: "http://example.com/cps"
     key-usages:
         - Digital Signature
