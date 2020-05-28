@@ -3,7 +3,6 @@ package main
 import (
 	"bytes"
 	"errors"
-	"fmt"
 	"io/ioutil"
 	"os"
 	"os/exec"
@@ -44,7 +43,7 @@ func rewriteIntermediate(path, keyID string) (string, error) {
 }
 
 func genCert(path string) error {
-	return err := exec.Command("bin/ceremony", "-config", path).Run()
+	return exec.Command("bin/ceremony", "-config", path).Run()
 }
 
 func main() {
@@ -52,7 +51,7 @@ func main() {
 	rsaRootKeyID, err := genKey("test/cert-ceremonies/root-ceremony-rsa.yaml")
 	cmd.FailOnError(err, "failed to generate root key + root cert")
 
-	rsaIntermediateKeyID, err := genKey("test/cert-ceremonies/intermediate-key-ceremony-rsa.yaml")
+	_, err = genKey("test/cert-ceremonies/intermediate-key-ceremony-rsa.yaml")
 	cmd.FailOnError(err, "failed to generate intermediate key")
 
 	tmpRSAIntermediateA, err := rewriteIntermediate("test/cert-ceremonies/intermediate-ceremony-rsa-a.yaml", rsaRootKeyID)
@@ -62,6 +61,6 @@ func main() {
 
 	tmpRSAIntermediateB, err := rewriteIntermediate("test/cert-ceremonies/intermediate-ceremony-rsa-b.yaml", rsaRootKeyID)
 	cmd.FailOnError(err, "failed to rewrite intermediate cert config with key ID")
-	err = genCert(tmpRSAIntermediateA)
+	err = genCert(tmpRSAIntermediateB)
 	cmd.FailOnError(err, "failed to generate intermediate cert")
 }
