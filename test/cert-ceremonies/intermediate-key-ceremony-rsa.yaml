@@ -1,0 +1,11 @@
+ceremony-type: key
+pkcs11:
+    module: /usr/local/lib/libpkcs11-proxy.so
+    pin: 5678
+    store-key-in-slot: 876421549
+    store-key-with-label: intermediate signing key (rsa)
+key:
+    type: rsa
+    rsa-mod-length: 4096
+outputs:
+    public-key-path: /tmp/intermediate-signing-pub-rsa.pem

@@ -64,8 +64,10 @@ git clone https://github.com/SUNET/pkcs11-proxy /tmp/pkcs11-proxy && \
 # Setup SoftHSM
 echo "directories.tokendir = /var/lib/softhsm/tokens/" > /etc/softhsm/softhsm2.conf
 mkdir -p /var/lib/softhsm/tokens
-softhsm2-util --slot 0 --init-token --label intermediate --pin 5678 --so-pin 1234
-softhsm2-util --slot 1 --init-token --label root --pin 5678 --so-pin 1234
+softhsm2-util --slot 0 --init-token --label root-ecdsa --pin 5678 --so-pin 1234
+softhsm2-util --slot 1 --init-token --label root-rsa --pin 5678 --so-pin 1234
+softhsm2-util --slot 0 --init-token --label intermediate-ecdsa --pin 5678 --so-pin 1234
+softhsm2-util --slot 1 --init-token --label intermediate-rsa --pin 5678 --so-pin 1234
 
 gem install --no-document fpm
 

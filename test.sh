@@ -101,6 +101,8 @@ if [[ "$RUN" =~ "integration" ]] ; then
     args+=("--filter" "${INT_FILTER}")
   fi
 
+  go run test/cert-ceremonies/generate.go
+
   python3 test/integration-test.py --chisel --gotest "${args[@]}"
 fi
 

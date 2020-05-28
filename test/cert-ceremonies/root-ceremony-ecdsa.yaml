@@ -1,0 +1,22 @@
+ceremony-type: root
+pkcs11:
+    module: /usr/local/lib/libpkcs11-proxy.so
+    pin: 5678
+    store-key-in-slot: 789813790
+    store-key-with-label: root signing key (ecdsa)
+key:
+    type: ecdsa
+    ecdsa-curve: P-384
+outputs:
+    public-key-path: /tmp/root-signing-pub-ecdsa.pem
+    certificate-path: /tmp/root-cert-ecdsa.pem
+certificate-profile:
+    signature-algorithm: ECDSAWithSHA384
+    common-name: CA root (ECDSA)
+    organization: good guys
+    country: US
+    not-before: 2020-01-01 12:00:00
+    not-after: 2040-01-01 12:00:00
+    key-usages:
+        - Cert Sign
+        - CRL Sign
