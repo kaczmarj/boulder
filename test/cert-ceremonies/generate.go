@@ -12,7 +12,7 @@ import (
 )
 
 func genKey(path string) (string, error) {
-	output, err := exec.Command("/go/src/github.com/letsencrypt/boulder/bin/ceremony", "-config", path).Output()
+	output, err := exec.Command("go", "run", "cmd/ceremony", "-config", path).Output()
 	if err != nil {
 		return "", err
 	}
@@ -43,7 +43,7 @@ func rewriteIntermediate(path, keyID string) (string, error) {
 }
 
 func genCert(path string) error {
-	return exec.Command("/go/src/github.com/letsencrypt/boulder/bin/ceremony", "-config", path).Run()
+	return exec.Command("go", "run", "cmd/ceremony", "-config", path).Run()
 }
 
 func main() {
